@@ -7,6 +7,7 @@ describe "the get townhall list and url method" do
     expect(get_townhall_list_and_url).not_to be_nil
     expect(get_townhall_list_and_url).to be_an_instance_of(Array)
     expect(get_townhall_list_and_url[0]).to be_an_instance_of(Array)
+    get_townhall_list_and_url.size { is_expected.to_be = 185}
   end
 end
 
@@ -21,5 +22,6 @@ describe "the get email list method" do
     expect(get_email_list).not_to be_nil
     expect(get_email_list).to be_an_instance_of(Array)
     expect(get_email_list[1]).to be_an_instance_of(Hash)
+    get_email_list.size { is_expected.to_be = 185}
   end
 end

@@ -7,6 +7,7 @@ describe "the get deputy_url_list method" do
     expect(get_deputy_url_list).not_to be_nil
     expect(get_deputy_url_list).to be_an_instance_of(Array)
 		expect(get_deputy_url_list).to include ("https://www.nosdeputes.fr/francois-ruffin")
+		get_deputy_url_list.size { is_expected.to_be = 577}
   end
 end
 
