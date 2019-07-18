@@ -7,7 +7,7 @@ def get_names(page)
 end
 
 def get_prices(page)
-		return (page.xpath("//tbody/tr/td[5]/a").map {|node| node.text.delete("$").to_f})
+	return (page.xpath("//tbody/tr/td[5]/a").map {|node| node.text.delete("$").to_f})
 end
 
 def get_final_list(names, prices)
