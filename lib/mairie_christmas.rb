@@ -1,5 +1,4 @@
-require 'dotenv'
-require 'pry'
+#require 'pry'
 require 'nokogiri' 
 require 'open-uri'  
 
@@ -10,37 +9,19 @@ def get_townhall_email(townhall_url)
 	end
 end
 
-def get_townhall_urls 
-	town_list = []
-	townhall_list_page = Nokogiri::HTML(open("http://annuaire-des-mairies.com/val-d-oise.html"))
-	townhall_list_page.xpath("//td/p/a").each do |node|
-	  town_list << node.text
-	end
-	return town_list
+def get_townhall_list_and_url
+	townhall_list_page = Nokogiri::HTML(open("https://annuaire-des-mairies.com/val-d-oise.html"))
+	town_list = townhall_list_page.xpath("//td/p/a").map{|node| node.text}
+	town_url = townhall_list_page.xpath("//td/p/a/@href").map{|node| "https://annuaire-des-mairies.com/#{node.text[2..-1]}"}
+	return town_list.zip(town_url)
 end
 
-def town_to_url (town)
-	town = town.gsub(" ", "-").downcase
-	return "https://www.annuaire-des-mairies.com/95/#{town}.html"
+def get_email_list
+	return get_townhall_list_and_url.map{|town, url| {town => get_townhall_email(url)}}
 end
 
 def perform	
-	town_list = get_townhall_urls
-	email_list = []
-
-	town_list.each do |town|
-		begin
-			email_list << {town => get_townhall_email(town_to_url(town))}
-		rescue => e
-			binding.pry
-			puts "Townhall page not found for #{town}" 
-		end
-	end
-
- puts email_list
-	# ary_final = get_final(get_names(page), get_prices(page))
-
-	# puts ary_final
+ puts get_email_list
 end
 
 perform
